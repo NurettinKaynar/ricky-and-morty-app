@@ -1,6 +1,6 @@
 "use client";
 import { NextPage } from 'next'
-import { get } from "./core/service/httpEntittyService"
+import {  getByParams } from "./core/service/httpEntittyService"
 import { ApiService } from "./core/utils/ApiUrl"
 import { AxiosResponse } from "axios"
 import Logo from "./assets/logo.png"
@@ -15,16 +15,18 @@ const Home:NextPage=()=>{
 const [LocationData, setLocationData] = useState<LocationModel>()
 
 
-  const getAllLocation=()=>{
-    get(ApiService.GET_LOCATIONS).then((res:AxiosResponse<LocationModel>)=>{
+  const getAllLocation=(pageNumber=1)=>{
+    
+    getByParams(ApiService.GET_LOCATIONS,{page:pageNumber}).then((res:AxiosResponse<LocationModel>)=>{
       console.log("GET ALL LOCATIONS",res);
       setLocationData(res.data)
     })
   }
+  
 
   const handlePageChanger=(pageNumber:number)=>{
     console.log("SAYFA Değiştirildi",pageNumber);
-    
+    getAllLocation(pageNumber)
   }
 
   useEffect(() => {
@@ -37,7 +39,7 @@ const [LocationData, setLocationData] = useState<LocationModel>()
  <div className='flex items-center justify-center w-full' >
     <Image src={Logo} className='w-44 pt-10' alt="Ricky And Morty Logo"  />
  </div>
- <div className='w-full flex flex-wrap gap-4 pt-4' >
+ <div className='w-full md:flex-row sm:flex-col flex flex-wrap gap-4 pt-4' >
       {
         LocationData?.results.map((item:CharacterModel,index:number)=>(
           <ItemComponent key={index} itemData={item} />
