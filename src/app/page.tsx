@@ -6,18 +6,18 @@ import { AxiosResponse } from "axios"
 import Logo from "./assets/logo.png"
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { LocationModelDto } from './core/models/geLocation.model';
+import { DataResultModel } from './core/models/DataResultModel';
 import { ItemComponent,Pagination } from './shared';
 import { LocationModel } from './core/models/location.model';
 import Head from 'next/head';
 
 const Home:NextPage=()=>{
-const [LocationData, setLocationData] = useState<LocationModelDto>()
+const [LocationData, setLocationData] = useState<DataResultModel<LocationModel>>()
 
 
   const getAllLocation=(pageNumber=1)=>{
     
-    getByParams(ApiService.GET_LOCATIONS,{page:pageNumber}).then((res:AxiosResponse<LocationModelDto>)=>{
+    getByParams(ApiService.GET_LOCATIONS,{page:pageNumber}).then((res:AxiosResponse<DataResultModel<LocationModel>>)=>{
       console.log("GET ALL LOCATIONS",res);
       setLocationData(res.data)
     })

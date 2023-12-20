@@ -7,18 +7,26 @@ import Link from 'next/link';
 import { getByParams } from '@/app/core/service/httpEntittyService';
 import { ApiService } from '@/app/core/utils/ApiUrl';
 import { AxiosResponse } from 'axios';
+import { DataResultModel } from '@/app/core/models/DataResultModel';
+import { CharacterModel } from '@/app/core/models/Character.model';
+import Pagination from '@/app/shared/components/Pagination/Pagination';
+import { StatusEnum } from '@/app/core/enum/Status.enum';
 const LocationDetail = ({params}:{params:{id:string}}) => {
-    const [charactersData, setCharactersData] = useState()
-    const getAllLocation=()=>{
+    const [charactersData, setCharactersData] = useState<DataResultModel<CharacterModel>>()
 
-        getByParams(ApiService.GET_CHARACTERS,{locationId:params.id}).then((res:AxiosResponse)=>{
+    const getWithFilterCharacters=(locationId=params.id,pageNumber=1,status=StatusEnum.All)=>{
+        
+        getByParams(ApiService.GET_CHARACTERS,{locationId:locationId,page:pageNumber,status:status}).then((res:AxiosResponse<DataResultModel<CharacterModel>>)=>{
             console.log("CHARACTERINFO",res.data);
             setCharactersData(res.data)
         })
     }
+    const handlePageChange=(pageNumber:number)=>{
+        getWithFilterCharacters('',pageNumber,StatusEnum.All)
+    }
+
     useEffect(() => {
-      getAllLocation()
-    
+        getWithFilterCharacters()
       
     }, [])
     
@@ -54,7 +62,14 @@ const LocationDetail = ({params}:{params:{id:string}}) => {
                 <div className='rounded-full bg-gray-500 w-4 h-4' ></div>
                 <span className='font-semibold' >Unknown</span>
             </div>
+        <div className="md:inline-block hidden" >
+            {
+                charactersData?
 
+                <Pagination onPageChange={handlePageChange} info={charactersData.info} />
+                :null
+            }
+        </div>
       </div>
     </div>
   );

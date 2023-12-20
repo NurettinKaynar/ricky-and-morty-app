@@ -1,7 +1,7 @@
 import { InfoModel } from "./Info.model";
 import { LocationModel } from "./location.model";
 
-export interface LocationModelDto{
+export interface DataResultModel<T>{
     info:InfoModel,
-    results:LocationModel[]
+    results:T[]
 }
