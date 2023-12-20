@@ -6,18 +6,18 @@ import { AxiosResponse } from "axios"
 import Logo from "./assets/logo.png"
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { LocationModel } from './core/models/geLocation.model';
-import { ItemComponent } from './shared';
-import { CharacterModel } from './core/models/character.model';
-import Pagination from './shared/components/Pagination/Pagination';
+import { LocationModelDto } from './core/models/geLocation.model';
+import { ItemComponent,Pagination } from './shared';
+import { LocationModel } from './core/models/location.model';
+import Head from 'next/head';
 
 const Home:NextPage=()=>{
-const [LocationData, setLocationData] = useState<LocationModel>()
+const [LocationData, setLocationData] = useState<LocationModelDto>()
 
 
   const getAllLocation=(pageNumber=1)=>{
     
-    getByParams(ApiService.GET_LOCATIONS,{page:pageNumber}).then((res:AxiosResponse<LocationModel>)=>{
+    getByParams(ApiService.GET_LOCATIONS,{page:pageNumber}).then((res:AxiosResponse<LocationModelDto>)=>{
       console.log("GET ALL LOCATIONS",res);
       setLocationData(res.data)
     })
@@ -35,13 +35,17 @@ const [LocationData, setLocationData] = useState<LocationModel>()
   
 
   return(
+    <>
+      <Head>
+      <link rel="icon" type="image/x-icon" sizes="16x16" href="/favicon.ico"/>
+    </Head>
     <div className='px-12'>
  <div className='flex items-center justify-center w-full' >
-    <Image src={Logo} className='w-44 pt-10' alt="Ricky And Morty Logo"  />
+    <Image priority src={Logo} className='w-44 pt-10' alt="Ricky And Morty Logo"  />
  </div>
  <div className='w-full md:flex-row sm:flex-col flex flex-wrap gap-4 pt-4' >
       {
-        LocationData?.results.map((item:CharacterModel,index:number)=>(
+        LocationData?.results.map((item:LocationModel,index:number)=>(
           <ItemComponent key={index} itemData={item} />
         ))
       }
@@ -56,6 +60,7 @@ const [LocationData, setLocationData] = useState<LocationModel>()
  }
  </div>
     </div>
+    </>
   )
 }
 export default Home

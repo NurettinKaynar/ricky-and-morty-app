@@ -1,7 +1,7 @@
 import { InfoModel } from "./Info.model";
-import { CharacterModel } from "./character.model";
+import { LocationModel } from "./location.model";
 
-export interface LocationModel{
+export interface LocationModelDto{
     info:InfoModel,
-    results:CharacterModel[]
+    results:LocationModel[]
 }

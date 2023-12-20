@@ -1,4 +1,4 @@
-export interface CharacterModel{
+export interface LocationModel{
     id:number,
     name:string,
     created:string,

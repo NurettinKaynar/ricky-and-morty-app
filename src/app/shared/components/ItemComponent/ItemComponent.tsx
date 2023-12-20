@@ -1,11 +1,11 @@
 import React from 'react'
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
-import { CharacterModel } from '@/app/core/models/character.model';
+import { LocationModel } from '@/app/core/models/location.model';
 import Link from 'next/link';
 
-const ItemComponent = ({itemData}:{itemData:CharacterModel}) => {
+const ItemComponent = ({itemData}:{itemData:LocationModel}) => {
   return (
-    <Link  href={`/characterDetail/${itemData.id}`}  className='px-6 transition ease-in-out delay-100 border cursor-pointer w-full md:w-1/4 rounded-lg justify-between flex items-center hover:bg-violet-800' >
+    <Link  href={`/LocationDetail/${itemData.id}`}  className='px-6 transition ease-in-out delay-100 border cursor-pointer w-full md:w-1/4 rounded-lg justify-between flex items-center hover:bg-violet-800' >
     <div className='p-2  grid gap-x-8 grid-cols-2'>
       <span className='font-semibold' >
         Name:
