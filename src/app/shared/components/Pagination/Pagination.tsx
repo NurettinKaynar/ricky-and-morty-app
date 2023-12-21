@@ -32,25 +32,27 @@ const Pagination: React.FC<PaginationProps> = ({ info, onPageChange }) => {
         pageNumbers.push(renderPageNumber(i));
       }
     } else {
-      // Eğer aktif sayfa 6 veya daha küçükse, ellipsisi sayfa 10'dan sonra göster
+      // ...
+
       if (activePage <= 6) {
         for (let i = 1; i <= 7; i++) {
           pageNumbers.push(renderPageNumber(i));
         }
-        pageNumbers.push(renderEllipsis());
+        pageNumbers.push(renderEllipsis("first"));
         for (let i = pages - 1; i <= pages; i++) {
           pageNumbers.push(renderPageNumber(i));
         }
       } else {
-        // Eğer aktif sayfa 6'dan büyükse, ellipsisi her iki tarafında göster
+        // ...
+
         for (let i = 1; i <= 2; i++) {
           pageNumbers.push(renderPageNumber(i));
         }
-        pageNumbers.push(renderEllipsis());
+        pageNumbers.push(renderEllipsis("left"));
         for (let i = activePage - 2; i <= activePage + 2; i++) {
           pageNumbers.push(renderPageNumber(i));
         }
-        pageNumbers.push(renderEllipsis());
+        pageNumbers.push(renderEllipsis("right"));
         for (let i = pages - 1; i <= pages; i++) {
           pageNumbers.push(renderPageNumber(i));
         }
@@ -62,7 +64,7 @@ const Pagination: React.FC<PaginationProps> = ({ info, onPageChange }) => {
 
   const renderPageNumber = (pageNumber: number) => (
     <a
-      key={"00-" + pageNumber}
+      key={`page-${pageNumber}`}
       href="#"
       onClick={() => handlePageClick(pageNumber)}
       className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold 
@@ -76,8 +78,10 @@ const Pagination: React.FC<PaginationProps> = ({ info, onPageChange }) => {
     </a>
   );
 
-  const renderEllipsis = () => (
-    <span className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-white-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0">
+  const renderEllipsis = (position: "left" | "right" | "first") => (
+    <span
+      key={`ellipsis-${position}`}
+      className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-white-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0">
       ...
     </span>
   );

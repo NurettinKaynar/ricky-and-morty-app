@@ -86,14 +86,16 @@ const LocationDetail = ({ params }: { params: { id: string } }) => {
         </div>
       </div>
       <div className="flex items-center justify-center">
-        <div className="flex flex-wrap gap-10">
+        <div className="  flex flex-wrap gap-10">
           {charactersData?.results.map(
             (item: CharacterModel, index: number) => (
-              <CardComponent
-                key={index}
-                OnclickShowDetail={clickCharacterHandler}
-                CharacterData={item}
-              />
+              <div key={index} className="w-full px-2 md:w-1/4">
+                <CardComponent
+                  isDetailed={false}
+                  OnclickShowDetail={clickCharacterHandler}
+                  CharacterData={item}
+                />
+              </div>
             )
           )}
         </div>

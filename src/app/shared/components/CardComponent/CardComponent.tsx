@@ -10,12 +10,17 @@ import {
   addFavoriteCharacter,
   removeFavoriteCharacter,
 } from "@/app/core/redux/store/store";
+import Link from "next/link";
 
 interface CardProps {
   CharacterData: CharacterModel;
   OnclickShowDetail: (characterData: CharacterModel) => void;
+  isDetailed: boolean;
 }
-const CardComponent: React.FC<CardProps> = ({ CharacterData }) => {
+const CardComponent: React.FC<CardProps> = ({
+  CharacterData,
+  isDetailed = false,
+}) => {
   const favoriteCharacters = useSelector(
     (state: RootState) => state.favoriteCharacters
   );
@@ -65,42 +70,78 @@ const CardComponent: React.FC<CardProps> = ({ CharacterData }) => {
   }, []);
 
   return (
-    <div className=" cursor-pointer flex flex-col gap-2">
-      <div className="relative ">
-        <Image
-          className="w-58 h-58"
-          src={CharacterData.image}
-          alt={CharacterData.name}
-          width={350}
-          height={350}
-        />
-        <div
-          onClick={() => favoriteController(CharacterData)}
-          className="absolute top-2 right-2">
-          {isAlreadyAddedFavorite(CharacterData) ? (
-            <FavoriteIcon
-              sx={{ color: "red", width: "34px", height: "34px" }}
-            />
-          ) : (
-            <FavoriteBorderIcon sx={{ width: "34px", height: "34px" }} />
-          )}
-        </div>
-      </div>
-      <div className="flex justify-between ">
-        <div className="flex flex-col gap-2">
-          <span className="font-semibold text-2xl">
-            <TruncatedText text={CharacterData.name} maxCharacters={17} />
-          </span>
-          <div className="flex items-center gap-2">
-            <div
-              className={`rounded-full w-4 h-4 ${getStatusBackgroundColor()}`}
-            />
-            <div className="font-semibold">{CharacterData.status}</div>
+    <>
+      <div className="  flex flex-col gap-2 w-full">
+        <div className="relative w-full">
+          <Image
+            priority
+            className="w-full"
+            src={CharacterData.image}
+            alt={CharacterData.name}
+            width={350}
+            height={350}
+          />
+          <div
+            onClick={() => favoriteController(CharacterData)}
+            className="absolute top-2 right-2">
+            {isAlreadyAddedFavorite(CharacterData) ? (
+              <FavoriteIcon
+                sx={{
+                  cursor: "pointer",
+                  color: "red",
+                  width: "34px",
+                  height: "34px",
+                }}
+              />
+            ) : (
+              <FavoriteBorderIcon
+                sx={{ cursor: "pointer", width: "34px", height: "34px" }}
+              />
+            )}
           </div>
         </div>
-        <ArrowForwardIosIcon sx={{ width: 52, height: 52 }} />
+        <div className="w-full flex justify-between ">
+          <div className="w-full flex flex-col gap-2">
+            <span className="font-semibold text-2xl">
+              <TruncatedText text={CharacterData.name} maxCharacters={17} />
+            </span>
+            {isDetailed ? (
+              <div className=" w-full flex  justify-between items-center">
+                <div className="flex items-center gap-2">
+                  <div
+                    className={`rounded-full w-4 h-4 ${getStatusBackgroundColor()}`}
+                  />
+                  <div className="font-semibold">
+                    {CharacterData.status} - {CharacterData.species}{" "}
+                  </div>
+                </div>
+                <span className=" w-min italic text-sm text-gray-500">
+                  {CharacterData.species + "/" + CharacterData.gender}
+                </span>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <div
+                  className={`rounded-full w-4 h-4 ${getStatusBackgroundColor()}`}
+                />
+                <div className="font-semibold">
+                  {CharacterData.status} - {CharacterData.species}{" "}
+                </div>
+              </div>
+            )}
+
+            {isDetailed ? (
+              <span className="italic">{CharacterData.location.name}</span>
+            ) : null}
+          </div>
+          {!isDetailed ? (
+            <Link href={`/CharacterDetail/${CharacterData.id}`}>
+              <ArrowForwardIosIcon sx={{ width: 52, height: 52 }} />
+            </Link>
+          ) : null}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
