@@ -69,7 +69,7 @@ const CharacterDetail = ({ params }: { params: { id: string } }) => {
         <div></div>
       </div>
       <div className="flex w-full  justify-start md:items-start md:gap-36 md:flex-row flex-col md:px-10 px-0 gap-2 items-center pt-12">
-        <div className="w-1/3">
+        <div className="w-full px-2 md:w-1/3">
           {CharacterDetail ? (
             <CardComponent
               CharacterData={CharacterDetail}
