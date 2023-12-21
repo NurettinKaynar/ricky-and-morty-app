@@ -12,9 +12,19 @@ import { CharacterModel } from "@/app/core/models/Character.model";
 import Pagination from "@/app/shared/components/Pagination/Pagination";
 import { StatusEnum } from "@/app/core/enum/Status.enum";
 import CardComponent from "@/app/shared/components/CardComponent/CardComponent";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 const LocationDetail = ({ params }: { params: { id: string } }) => {
   const [charactersData, setCharactersData] =
     useState<DataResultModel<CharacterModel>>();
+  var settings = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
 
   const getWithFilterCharacters = (
     locationId = params.id,
@@ -87,8 +97,23 @@ const LocationDetail = ({ params }: { params: { id: string } }) => {
           <span className="font-semibold">Unknown</span>
         </div>
       </div>
+      <div className="md:hidden block">
+        <Slider {...settings}>
+          {charactersData?.results.map(
+            (item: CharacterModel, index: number) => (
+              <div key={index} className="w-full px-2">
+                <CardComponent
+                  isDetailed={false}
+                  OnclickShowDetail={clickCharacterHandler}
+                  CharacterData={item}
+                />
+              </div>
+            )
+          )}
+        </Slider>
+      </div>
       <div className="flex items-center justify-center">
-        <div className="  flex flex-wrap gap-10">
+        <div className="hidden  md:flex flex-wrap gap-10">
           {charactersData?.results.map(
             (item: CharacterModel, index: number) => (
               <div key={index} className="w-full px-2 md:w-1/6">

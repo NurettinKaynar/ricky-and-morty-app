@@ -9,12 +9,22 @@ import ArrowBackIosNewOutlinedIcon from "@mui/icons-material/ArrowBackIosNewOutl
 import { CharacterModel } from "../core/models/Character.model";
 import { CardComponent } from "../shared";
 import { useRouter } from "next/navigation";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 
 const MyFavorites = () => {
   const navigate = useRouter();
   const favoriteCharacters = useSelector(
     (state: RootState) => state.favoriteCharacters
   );
+  var settings = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
 
   const clickCharacterHandler = (character: CharacterModel) => {
     navigate.push(`/CharacterDetail/${character.id}`);
@@ -34,10 +44,25 @@ const MyFavorites = () => {
         />
         <div></div>
       </div>
-      <div className=" items-center flex-col md:flex-row flex md:flex-wrap gap-6">
+      <div className="md:hidden block">
+        {favoriteCharacters.length > 0 ? (
+          <Slider {...settings}>
+            {favoriteCharacters.map((character: CharacterModel, index) => (
+              <div key={index} className="px-2 w-full md:w-1/6">
+                <CardComponent
+                  isDetailed={true}
+                  CharacterData={character}
+                  OnclickShowDetail={clickCharacterHandler}
+                />
+              </div>
+            ))}
+          </Slider>
+        ) : null}
+      </div>
+      <div className="hidden md:flex items-center flex-col md:flex-row  md:flex-wrap gap-6">
         {favoriteCharacters.length > 0 ? (
           favoriteCharacters.map((character: CharacterModel, index) => (
-            <div key={index} className="px-2 md:w-1/6">
+            <div key={index} className="px-2 w-full md:w-1/6">
               <CardComponent
                 isDetailed={true}
                 CharacterData={character}
