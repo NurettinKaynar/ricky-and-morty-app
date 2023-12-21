@@ -57,7 +57,9 @@ const LocationDetail = ({ params }: { params: { id: string } }) => {
       </div>
       <div className="flex items-center justify-center flex-row gap-x-8">
         <span className="font-semibold">Filter By Status</span>
-        <span className="font-semibold underline">My Favorites</span>
+        <Link href={"/MyFavorites"} className="font-semibold underline">
+          My Favorites
+        </Link>
       </div>
       <div className="flex md:overflow-hidden overflow-x-scroll p-8 gap-6">
         <div
@@ -89,7 +91,7 @@ const LocationDetail = ({ params }: { params: { id: string } }) => {
         <div className="  flex flex-wrap gap-10">
           {charactersData?.results.map(
             (item: CharacterModel, index: number) => (
-              <div key={index} className="w-full px-2 md:w-1/4">
+              <div key={index} className="w-full px-2 md:w-1/6">
                 <CardComponent
                   isDetailed={false}
                   OnclickShowDetail={clickCharacterHandler}
