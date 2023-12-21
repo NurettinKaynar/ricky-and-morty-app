@@ -1,14 +1,39 @@
 import { CharacterModel } from "@/app/core/models/Character.model";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  RootState,
+  addFavoriteCharacter,
+  removeFavoriteCharacter,
+} from "@/app/core/redux/store/store";
+
 interface CardProps {
   CharacterData: CharacterModel;
   OnclickShowDetail: (characterData: CharacterModel) => void;
 }
 const CardComponent: React.FC<CardProps> = ({ CharacterData }) => {
+  const favoriteCharacters = useSelector(
+    (state: RootState) => state.favoriteCharacters
+  );
+  const dispatch = useDispatch();
+
+  const isAlreadyAddedFavorite = (characterData: CharacterModel) => {
+    return favoriteCharacters.find(
+      (character: CharacterModel) => character.id === characterData.id
+    );
+  };
+  const favoriteController = (characterData: CharacterModel) => {
+    if (isAlreadyAddedFavorite(characterData)) {
+      dispatch(removeFavoriteCharacter(characterData));
+    } else {
+      dispatch(addFavoriteCharacter(characterData));
+    }
+  };
+
   const TruncatedText = ({
     text,
     maxCharacters,
@@ -34,6 +59,11 @@ const CardComponent: React.FC<CardProps> = ({ CharacterData }) => {
         return "bg-gray-500";
     }
   };
+
+  useEffect(() => {
+    isAlreadyAddedFavorite(CharacterData);
+  }, []);
+
   return (
     <div className=" cursor-pointer flex flex-col gap-2">
       <div className="relative ">
@@ -44,10 +74,17 @@ const CardComponent: React.FC<CardProps> = ({ CharacterData }) => {
           width={350}
           height={350}
         />
-        <FavoriteIcon
-          className="absolute top-2 right-2"
-          sx={{ width: "34px", height: "34px" }}
-        />
+        <div
+          onClick={() => favoriteController(CharacterData)}
+          className="absolute top-2 right-2">
+          {isAlreadyAddedFavorite(CharacterData) ? (
+            <FavoriteIcon
+              sx={{ color: "red", width: "34px", height: "34px" }}
+            />
+          ) : (
+            <FavoriteBorderIcon sx={{ width: "34px", height: "34px" }} />
+          )}
+        </div>
       </div>
       <div className="flex justify-between ">
         <div className="flex flex-col gap-2">

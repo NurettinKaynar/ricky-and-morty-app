@@ -15,6 +15,9 @@ export default function RootLayout({
   return (
     <Provider store={store}>
       <html lang="en">
+        <head>
+          <title>Ricky And Morty App</title>
+        </head>
         <body className={inter.className}>{children}</body>
       </html>
     </Provider>
