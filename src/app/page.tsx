@@ -43,7 +43,7 @@ const Home: NextPage = () => {
           href="/favicon.ico"
         />
       </Head>
-      <div className="px-12">
+      <div className="px-2 md:px-12">
         <div className="flex items-center justify-center w-full">
           <Image
             priority
@@ -52,7 +52,7 @@ const Home: NextPage = () => {
             alt="Ricky And Morty Logo"
           />
         </div>
-        <div className="w-full md:flex-row sm:flex-col flex flex-wrap gap-4 pt-4">
+        <div className="w-full md:flex-row sm:flex-col flex flex-wrap gap-2 md:gap-4 pt-4">
           {LocationData?.results.map((item: LocationModel, index: number) => (
             <ItemComponent key={index} itemData={item} />
           ))}
